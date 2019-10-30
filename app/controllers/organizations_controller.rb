@@ -1,9 +1,10 @@
 class OrganizationsController < ApplicationController
     def index
+        @organizations = Organization.all
     end
 
     def create
-        @organization = Organization.new(params[:organization])
+        @organization = Organization.new(organization_params)
 
         @organization.save
         redirect_to @organization
@@ -16,6 +17,7 @@ class OrganizationsController < ApplicationController
     end
 
     def show
+        @organization = Organization.find(params[:id])
     end
 
     def update
@@ -23,4 +25,9 @@ class OrganizationsController < ApplicationController
 
     def destroy
     end
+
+    private
+        def organization_params
+            params.require(:organization).permit(:name, :hourly_rate)
+        end
 end

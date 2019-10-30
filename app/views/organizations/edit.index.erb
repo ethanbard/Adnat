@@ -1,0 +1,19 @@
+<h1>Adnat</h1>
+Logged in as Ethan Bard
+<br />
+<h3>Edit Organization</h3>
+<%= form_with scope: :organization, url: organizations_path, local: true do |form| %>
+    <p>
+        <%= form.label :name %>:
+        <%= form.text_field :name %>
+    </p>
+
+    <p>
+        <%= form.label :hourly_rate %>:
+        $<%= form.text_field :hourly_rate %>
+    </p>
+    
+    <p>
+        <%= form.submit :Update %>
+    </p>
+<% end %>
