@@ -2,7 +2,7 @@
 Logged in as Ethan Bard
 <br />
 <h3>Edit Organization</h3>
-<%= form_with scope: :organization, url: organizations_path, local: true do |form| %>
+<%= form_with(model: @organization, local: true) do |form| %>
     <p>
         <%= form.label :name %>:
         <%= form.text_field :name %>
@@ -17,3 +17,4 @@ Logged in as Ethan Bard
         <%= form.submit :Update %>
     </p>
 <% end %>
+<%= link_to 'Delete', organization_path(@organization), method: :delete, data: { confirm: 'Are you sure?' } %>
