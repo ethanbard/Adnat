@@ -1,36 +1,26 @@
 class OrganizationsController < ApplicationController
     def index
-        #@organizations = Organization.all
     end
 
-    def show
-        #@organization = Organization.find(params[:id])
+    def create
+        @organization = Organization.new(params[:organization])
+
+        @organization.save
+        redirect_to @organization
     end
 
     def new
-        #@organization = Organization.new
     end
 
-    def create_organization
-        @organization = Organization.new(org_params)
-
-        if @organization.save
-            redirect_to :action => 'list'
-        else
-            render :action => 'new'
-        end
+    def edit
     end
 
-    def org_params
-        params.require(:organizations).permit(:name, :hourly_rate)
+    def show
     end
 
-    def edit_organization
+    def update
     end
 
-    def update_organization
-    end
-
-    def delete_organization
+    def destroy
     end
 end
