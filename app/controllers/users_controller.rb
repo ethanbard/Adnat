@@ -3,10 +3,11 @@ class UsersController < ApplicationController
     end
 
     def create
-        @user = Organization.new(params[:user])
+        #@user = User.new(params[:user])
 
-        @user.save
-        redirect_to @user
+        #@user.save
+        #redirect_to @user
+        redirect_to organizations_path
     end
 
     def new

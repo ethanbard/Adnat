@@ -3,5 +3,5 @@ Rails.application.routes.draw do
   resources :organizations
   resources :users
   resources :shifts
-  root 'organizations#index'
+  root 'users#index'
 end

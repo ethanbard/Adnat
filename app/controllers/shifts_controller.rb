@@ -1,9 +1,10 @@
 class ShiftsController < ApplicationController
     def index
+        @shifts = Shift.all
     end
 
     def create
-        @shift = Organization.new(params[:shift])
+        @shift = Shift.new(params[:shift])
 
         @shift.save
         redirect_to @shift
