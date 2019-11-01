@@ -16,7 +16,7 @@ class UsersController < ApplicationController
             else
                 add_user_to_session
                 if @user.organizations_id != nil
-                    redirect_to organization_path(@user.organization_id)
+                    redirect_to organization_path(@user.organizations_id)
                 else
                     redirect_to organizations_path
                 end
@@ -36,12 +36,13 @@ class UsersController < ApplicationController
                 add_user_to_session
                 redirect_to organizations_path
             else
-                render 'index'
+                render 'new'
             end
         end
     end
 
     def new
+        @user = User.new
     end
 
     def edit
@@ -62,6 +63,6 @@ class UsersController < ApplicationController
         end
 
         def add_user_to_session
-            session[:current_user] = @user.name #Add user to session
+            session[:current_user_id] = @user.id #Add user to session
         end
 end

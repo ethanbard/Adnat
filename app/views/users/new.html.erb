@@ -1,6 +1,13 @@
 <h1>Adnat</h1>
 <h3>Sign Up</h3>
 <%= form_with scope: :user, url: users_path, local: true do |form| %>
+    <% if @user.errors.any? %>
+        <ul>
+            <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+        </ul>
+    <% end %>
     <p>
         <%= form.label :name %><br>
         <%= form.text_field :name %>

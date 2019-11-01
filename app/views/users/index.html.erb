@@ -1,7 +1,7 @@
 <h1>Adnat</h1>
 <ul>
     <% @users.each do |user| %>
-        <li><%= user.name %> <%= user.email_address %> <%= user.password%></li>
+        <li><%= user.name %> <%= user.email_address %> <%= user.password %> <%= user.organizations_id %></li>
     <% end %>
 </ul>
 <h3>Log in</h3>

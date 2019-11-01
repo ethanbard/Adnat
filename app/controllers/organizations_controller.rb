@@ -1,6 +1,7 @@
 class OrganizationsController < ApplicationController
     def index
         @organizations = Organization.all
+        remove_user_from_organization
     end
 
     def new
@@ -19,6 +20,7 @@ class OrganizationsController < ApplicationController
 
     def show
         @organization = Organization.find(params[:id])
+        add_user_to_organization(params)
     end
 
     def update
