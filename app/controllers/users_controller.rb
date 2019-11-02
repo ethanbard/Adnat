@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 
     def login
         login = params[:user]
-        @user = User.where(email_address: login[:email_address]).take
+        @user = User.find_by(email_address: login[:email_address])
  
         if @user == nil
             render html: "Invalid Email"
@@ -46,6 +46,7 @@ class UsersController < ApplicationController
     end
 
     def edit
+        render html: "Reset password here"
     end
 
     def show

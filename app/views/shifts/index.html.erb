@@ -5,10 +5,11 @@
     }
 </style>
 <h1>Adnat</h1>
-Logged in as Ethan Bard <%= link_to 'Log Out', users_path %>
+Logged in as <%= current_user.name %> <%= link_to 'Log Out', users_path %>
 <br />
-<h3>Organization Name Goes Here</h3>
+<h3><%= current_organization.name %></h3>
 <h4>Shifts</h4>
+<%= form_with scope: :shift, url: shifts_path, local: true do |form| %>
 <table>
     <tr>
         <th>Employee name</th>
@@ -19,40 +20,26 @@ Logged in as Ethan Bard <%= link_to 'Log Out', users_path %>
         <th>Hours worked</th>
         <th>Shift cost</th>
     </tr>
+
+    <% @shifts.each do |shift| %>
+        <tr>
+            <td><%= user_name(shift.users_id).name %></td>
+            <td><%= shift.start.strftime("%d/%m/%Y") %></td>
+            <td><%= shift.start.strftime("%I:%M %p") %></td>
+            <td><%= shift.finish.strftime("%I:%M %p") %></td>
+            <td><%= shift.break_length %></td>
+            <td><%= @hours_worked = hours_worked(shift.start, shift.finish, shift.break_length) %></td>
+            <td><%= shift_cost(@hours_worked) %></td>
+        </tr>
+    <% end %>
+
     <tr>
-        <td>Jane Brown</td>
-        <td>7/02/2019</td>
-        <td>10:15am</td>
-        <td>1:30pm</td>
-        <td>0</td>
-        <td>3.25</td>
-        <td>$32.50</td>
-    </tr>
-    <tr>
-        <td>John Smith</td>
-        <td>5/02/2019</td>
-        <td>9:00am</td>
-        <td>1:00pm</td>
-        <td>30</td>
-        <td>3.5</td>
-        <td>$35.00</td>
-    </tr>
-    <tr>
-        <td>Ellen Jones</td>
-        <td>01/31/2019</td>
-        <td>11:00am</td>
-        <td>11:00pm</td>
-        <td>60</td>
-        <td>11.0</td>
-        <td>$110.00</td>
-    </tr>
-    <tr>
-        <td>Ethan Bard</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><%= current_user.name %></td>       
+        <td><%= form.text_field :shift_date %></td>
+        <td><%= form.text_field :start_time %></td>
+        <td><%= form.text_field :finish %></td>
+        <td><%= form.text_field :break_length %></td>
+        <td><%= form.submit :Create %></td>
     </tr>
 </table>
+<% end %>
