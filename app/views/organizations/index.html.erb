@@ -1,7 +1,8 @@
 <h1>Adnat</h1>
-Logged in as <%= current_user.name %> <%= link_to 'Log Out', users_path %>
-<br />
+<%= render "user" %>
 <h3>Organizations</h3>
+<p>You aren't a member of any organizations.<br>
+   Join an existing one or create a new one.</p>
 <ul>
     <% @organizations.each do |organization| %>
         <li><%= organization.name %>
@@ -9,7 +10,6 @@ Logged in as <%= current_user.name %> <%= link_to 'Log Out', users_path %>
             <%= link_to 'Join', organization_path(organization) %></li>
     <% end %>
 </ul>
-<br />
 <h3>Create Organization</h3>
 <%= form_with scope: :organization, url: organizations_path, local: true do |form| %>
     <p>
@@ -23,6 +23,6 @@ Logged in as <%= current_user.name %> <%= link_to 'Log Out', users_path %>
     </p>
     
     <p>
-        <%= form.submit :Create_and_Join%>
+        <%= form.submit "Create and Join" %>
     </p>
 <% end %>

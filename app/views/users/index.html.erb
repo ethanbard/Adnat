@@ -1,11 +1,13 @@
 <h1>Adnat</h1>
-<ul>
-    <% @users.each do |user| %>
-        <li><%= user.name %> <%= user.email_address %> <%= user.password %> <%= user.organizations_id %></li>
-    <% end %>
-</ul>
 <h3>Log in</h3>
 <%= form_with scope: :user, url: users_login_path, local: true do |form| %>
+    <% if @user.errors.any? %>
+        <ul>
+            <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+        </ul>
+    <% end %>
     <p>
         <%= form.label :email %><br>
         <%= form.text_field :email_address %>
@@ -17,8 +19,8 @@
     </p>
     
     <p>
-        <%= form.submit :Log_in %>
+        <%= form.submit "Log in" %>
     </p>
 <% end %>
 <%= link_to 'Sign up', new_user_path %><br>
-<%= link_to 'Forgot your password?', edit_user_path(1) %>
+<%= link_to 'Forgot your password?', users_password_path %>

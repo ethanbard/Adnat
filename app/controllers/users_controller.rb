@@ -1,18 +1,20 @@
 class UsersController < ApplicationController
     def index
         session[:current_user] = nil
-        @users = User.all
+        @user = User.new
     end
 
     def login
-        login = params[:user]
-        @user = User.find_by(email_address: login[:email_address])
+        @user = User.find_by(email_address: params[:user][:email_address])
  
         if @user == nil
-            render html: "Invalid Email"
+            @user = User.new
+            @user.errors.add(:base, "Invalid Email")
+            render 'index'
         else
-            if login[:password] != @user.password
-                render html: "Invalid Password"
+            if params[:user][:password] != @user.password
+                @user.errors.add(:base, "Invalid Password")
+                render 'index'
             else
                 add_user_to_session
                 if @user.organizations_id != nil
@@ -24,20 +26,35 @@ class UsersController < ApplicationController
         end
     end
 
-    def create
-        new_user = params[:user]
+    def reset_password
+        @user = User.find_by(email_address: params[:user][:email_address])
 
-        if new_user[:password] != new_user[:password_confirmation]
-            render html: "Passwords do not match"
+        if @user == nil
+            @user = User.new
+            @user.errors.add(:base, "Invalid Email")
+            render 'password'
         else
-            @user = User.new(user_params)
-
-            if @user.save
+            if @user.update(user_params)
                 add_user_to_session
-                redirect_to organizations_path
+                if @user.organizations_id != nil
+                    redirect_to organization_path(@user.organizations_id)
+                else
+                    redirect_to organizations_path
+                end
             else
-                render 'new'
+                render 'password'
             end
+        end
+    end
+
+    def create
+        @user = User.new(user_params)
+
+        if @user.save
+            add_user_to_session
+            redirect_to organizations_path
+        else
+            render 'new'
         end
     end
 
@@ -46,13 +63,20 @@ class UsersController < ApplicationController
     end
 
     def edit
-        render html: "Reset password here"
+        @user = User.find(params[:id])
     end
 
     def show
     end
 
     def update
+        @user = User.find(params[:id])
+
+        if @user.update(user_params)
+            redirect_to organizations_path
+        else
+            render 'edit'
+        end
     end
 
     def destroy
@@ -60,7 +84,7 @@ class UsersController < ApplicationController
 
     private
         def user_params
-            params.require(:user).permit(:name, :email_address, :password)
+            params.require(:user).permit(:name, :email_address, :password, :password_confirmation)
         end
 
         def add_user_to_session

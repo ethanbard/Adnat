@@ -5,7 +5,7 @@
     }
 </style>
 <h1>Adnat</h1>
-Logged in as <%= current_user.name %> <%= link_to 'Log Out', users_path %>
+<%= render "organizations/user" %>
 <br />
 <h3><%= current_organization.name %></h3>
 <h4>Shifts</h4>
@@ -39,7 +39,7 @@ Logged in as <%= current_user.name %> <%= link_to 'Log Out', users_path %>
         <td><%= form.text_field :start_time %></td>
         <td><%= form.text_field :finish %></td>
         <td><%= form.text_field :break_length %></td>
-        <td><%= form.submit :Create %></td>
+        <td colspan="2"><%= form.submit "Create Shift" %></td>
     </tr>
 </table>
 <% end %>
