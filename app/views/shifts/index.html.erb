@@ -30,6 +30,8 @@
             <td><%= shift.break_length %></td>
             <td><%= @hours_worked = hours_worked(shift.start, shift.finish, shift.break_length) %></td>
             <td><%= shift_cost(@hours_worked) %></td>
+            <td><%= link_to 'Edit Shift', edit_shift_path(shift.id)%></td>
+            <td><%= link_to 'Delete Shift', shift_path(shift.id), method: :delete %></td>
         </tr>
     <% end %>
 
@@ -42,4 +44,5 @@
         <td colspan="2"><%= form.submit "Create Shift" %></td>
     </tr>
 </table>
+<%= link_to 'Go Back', organization_path(current_organization.id) %>
 <% end %>

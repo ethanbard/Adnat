@@ -3,6 +3,13 @@ Logged in as <%= current_user.name %> <%= link_to 'Log Out', users_path %>
 <br />
 <h3>Edit Organization</h3>
 <%= form_with(model: @organization, local: true) do |form| %>
+    <% if @organization.errors.any? %>
+        <ul>
+            <% @organization.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+        </ul>
+    <% end %>
     <p>
         <%= form.label :name %>:
         <%= form.text_field :name %>

@@ -1,7 +1,17 @@
 class UsersController < ApplicationController
     def index
-        session[:current_user] = nil
-        @user = User.new
+        if cookies[:current_user_id] != nil
+            user = user_name(cookies[:current_user_id])
+            session[:current_user_id] = user.id
+
+            if user.organizations_id != nil
+                redirect_to organization_path(user.organizations_id)
+            else
+                redirect_to organizations_path
+            end
+        else
+            @user = User.new
+        end
     end
 
     def login
@@ -24,6 +34,17 @@ class UsersController < ApplicationController
                 end
             end
         end
+    end
+
+    def logout
+        #delete the current user cookie
+        cookies.delete(:current_user_id)
+        session[:current_user_id] = nil
+        redirect_to users_path
+    end
+
+    def password
+        @user = User.new
     end
 
     def reset_password
@@ -66,9 +87,6 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
     end
 
-    def show
-    end
-
     def update
         @user = User.find(params[:id])
 
@@ -79,9 +97,6 @@ class UsersController < ApplicationController
         end
     end
 
-    def destroy
-    end
-
     private
         def user_params
             params.require(:user).permit(:name, :email_address, :password, :password_confirmation)
@@ -89,5 +104,8 @@ class UsersController < ApplicationController
 
         def add_user_to_session
             session[:current_user_id] = @user.id #Add user to session
+            if params[:user][:remember_me] == "1" #if Remember me is selected
+                cookies.permanent[:current_user_id] = @user.id
+            end
         end
 end

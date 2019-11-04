@@ -1,0 +1,31 @@
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+<h1>Adnat</h1>
+<%= render "organizations/user" %>
+<br />
+<h3><%= current_organization.name %></h3>
+<h4>Shifts</h4>
+<%= form_with(model: @shift, local: true) do |form| %>
+<table>
+    <tr>
+        <th>Employee name</th>
+        <th>Shift date</th>
+        <th>Start time</th>
+        <th>Finish time</th>
+        <th>Break length (minutes)</th>
+    </tr>
+
+    <tr>
+        <td><%= user_name(@shift.users_id).name %></td>       
+        <td><%= form.text_field :shift_date, value: @shift.start.strftime("%d/%m/%Y") %></td>
+        <td><%= form.text_field :start_time, value:  @shift.start.strftime("%I:%M %p") %></td>
+        <td><%= form.text_field :finish, value: @shift.finish.strftime("%I:%M %p") %></td>
+        <td><%= form.text_field :break_length %></td>
+        <td colspan="2"><%= form.submit "Save Changes" %></td>
+    </tr>
+</table>
+<% end %>
